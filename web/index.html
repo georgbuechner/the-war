@@ -1,0 +1,38 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<style>
+  img {
+    width: 100%;
+  }
+  .container {
+    position: relative;
+    text-align: center;
+    color: white;
+  }
+  .top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
+</style>
+</head>
+<body>
+
+  <canvas id="battlefield" width="600", height"300" style="border: 1px solid #000000;">
+  </canvas>
+
+  <br>
+  <button onclick="Setup();">Setup</button>
+  <button onclick="DoPhases();">Start</button>
+  <input type="number" id="num_phases" value=10 />
+  <input type="number" id="chance_pink" value=15 step=1 onchange="UpdateChance(this.value, true);"/>
+  <input type="number" id="chance_green" value=15 step=1 onchange="UpdateChance(this.value, false);"/>
+  <button onclick="CreateBase(true);">Create Pink Base</button>
+  <button onclick="CreateBase(false);">Create Green Base</button>
+
+
+</body>
+
+<script src="/js/general.js"></script>
+</html> 

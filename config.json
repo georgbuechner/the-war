@@ -1,0 +1,59 @@
+{
+  "pink_battlefields": [
+    {"x": 168, "y": 346},
+    {"x": 511, "y": 207}, 
+    {"x": 841, "y": 259}, 
+    {"x": 50,  "y": 177}
+
+  ],
+  "green_battlefields": [
+    {"x": 801, "y": 391}, 
+    {"x": 582, "y": 449}, 
+    {"x": 546, "y": 306}, 
+    {"x": 877, "y": 154} 
+  ],
+  "pink_bases": [
+    {"x": 139, "y": 201, "finanziers": {}}, 
+    {"x": 207, "y": 205, "finanziers": {}}, 
+    {"x": 135, "y": 236, "finanziers": {}}, 
+    {"x": 197, "y": 245, "finanziers": {}}, 
+    {"x": 439, "y": 204, "finanziers": {}}, 
+    {"x": 437, "y": 245, "finanziers": {}}, 
+    {"x": 475, "y": 217, "finanziers": {}}, 
+    {"x": 482, "y": 170, "finanziers": {}}, 
+    {"x": 504, "y": 157, "finanziers": {}}, 
+    {"x": 828, "y": 457, "finanziers": {}}, 
+    {"x": 873, "y": 463, "finanziers": {}}, 
+    {"x": 868, "y": 491, "finanziers": {}}, 
+    {"x": 499, "y": 291, "finanziers": {}}, 
+    {"x": 550, "y": 286, "finanziers": {}}, 
+    {"x": 507, "y": 471, "finanziers": {}}, 
+    {"x": 543, "y": 453, "finanziers": {}},
+    {"x": 168, "y": 346, "finanziers": {"kollektiv": 50}},
+    {"x": 511, "y": 207, "finanziers": {}}, 
+    {"x": 841, "y": 259, "finanziers": {}}, 
+    {"x": 50,  "y": 177, "finanziers": {}}
+  ],
+  "green_bases": [
+    {"x": 233, "y": 418, "finanziers": {}}, 
+    {"x": 298, "y": 424, "finanziers": {}}, 
+    {"x": 262, "y": 471, "finanziers": {}}, 
+    {"x": 246, "y": 517, "finanziers": {}}, 
+    {"x": 446, "y": 295, "finanziers": {}}, 
+    {"x": 417, "y": 328, "finanziers": {}}, 
+    {"x": 498, "y": 343, "finanziers": {}}, 
+    {"x": 503, "y": 386, "finanziers": {}}, 
+    {"x": 617, "y": 179, "finanziers": {}}, 
+    {"x": 698, "y": 163, "finanziers": {}}, 
+    {"x": 782, "y": 178, "finanziers": {}}, 
+    {"x": 781, "y": 259, "finanziers": {}}, 
+    {"x": 765, "y": 286, "finanziers": {}}, 
+    {"x": 719, "y": 255, "finanziers": {}}, 
+    {"x": 889, "y": 405, "finanziers": {}}, 
+    {"x": 690, "y": 314, "finanziers": {}},
+    {"x": 801, "y": 391, "finanziers": {}}, 
+    {"x": 582, "y": 449, "finanziers": {"jan": 25, "alex": 25}}, 
+    {"x": 546, "y": 306, "finanziers": {}}, 
+    {"x": 877, "y": 154, "finanziers": {}} 
+  ]
+}
