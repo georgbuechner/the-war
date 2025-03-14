@@ -25,8 +25,17 @@ ServerFrame::ServerFrame(std::shared_ptr<Field> field, std::string path_to_cert,
 int ServerFrame::Start(int port) {
   // Add specific handlers for user-managment.
   server_.Get("/api/heartbeat", [&](const Request& req, Response& resp) { resp.status = 200; });
-  server_.Get("/api/map", [&](const Request& req, Response& resp) { 
+  server_.Get("/api/bf/map", [&](const Request& req, Response& resp) { 
       resp.set_content(_field->GetFieldJson().dump(), "application/json"); });
+  server_.Post("/api/bf/pause", [&](const Request& req, Response& resp) { 
+      _field->set_paused(true);
+      resp.status = 200;
+    });
+  server_.Post("/api/bf/unpause", [&](const Request& req, Response& resp) { 
+      _field->set_paused(false);
+      resp.status = 200;
+    });
+
 
   //Add simple handler for css, javaskript and images 
   server_.Get("/", [](const Request& req, Response& resp) {

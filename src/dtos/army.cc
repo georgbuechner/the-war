@@ -1,13 +1,14 @@
 #include "dtos/army.h"
+#include "utils/defines.h"
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <numeric>
 
 Army::Army(bf::BLOCK block, std::map<int, std::shared_ptr<Unit>> units, 
-    std::map<int, std::shared_ptr<Base>> bases) 
+    std::map<int, std::shared_ptr<Base>> bases)
   : _block(block), _chance(0), _units(units), _bases(bases), 
     _initial_num_bases(_bases.size()) {
-  _dollars = CalculateTotalStrength();
+  _dollars = 0;
 }
 
 // getter 
@@ -17,8 +18,8 @@ const std::map<int, std::shared_ptr<Unit>>& Army::units() { return _units; }
 const std::map<int, std::shared_ptr<Base>>& Army::bases() { return _bases; } 
 
 // setter 
-void Army::chance(int chance) { _chance = chance; }
-void Army::dollars(int dollars) { _dollars = dollars; } 
+void Army::set_chance(int chance) { _chance = chance; }
+void Army::set_dollars(int dollars) { _dollars = dollars; } 
 
 // Method 
 void Army::IncDollars(int amount) { _dollars += amount; }
@@ -27,6 +28,9 @@ int Army::CalculateTotalStrength() {
   // Add strength from units and size of bases (since bases always have strength = 1)
   return std::accumulate(_units.begin(), _units.end(), _bases.size(), [](const auto& val, const auto& next) {
       return val + next.second->strength(); }); 
+}
+void Army::AddUnit(std::shared_ptr<Unit> unit) {
+  _units[unit->id()] = unit;
 }
 std::map<int, std::shared_ptr<Unit>> Army::GetAllUnits() { 
  std::map<int, std::shared_ptr<Unit>> all(_units.begin(), _units.end());

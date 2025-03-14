@@ -134,8 +134,8 @@ std::string util::HashSha3512(const std::string& input) {
 }
 
 bf::t_pos util::RandomClosePos(bf::t_pos pos, unsigned int dist) {
-  auto close = [&](int x) -> unsigned {
-    return ((Ran(1) == 1) ? -1 : 1) * Ran(dist);
+  auto close = [&](int x, unsigned int dist) -> unsigned {
+    return x + ((Ran(1) == 1) ? -1 : 1) * Ran(dist);
   };
-  return {close(pos.first), close(pos.second)};
+  return {close(pos.first, dist-4), close(pos.second, dist+4)};
 }

@@ -23,12 +23,13 @@ class Army {
     const std::map<int, std::shared_ptr<Base>>& bases();
 
     // setter 
-    void chance(int chance);
-    void dollars(int dollars);
+    void set_chance(int chance);
+    void set_dollars(int dollars);
 
     // Method 
     void IncDollars(int amount);
     void DecDollars(int amount);
+    void AddUnit(std::shared_ptr<Unit> unit);
     int CalculateTotalStrength();
     std::map<int, std::shared_ptr<Unit>> GetAllUnits();
     nlohmann::json ToJson();

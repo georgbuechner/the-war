@@ -31,8 +31,12 @@ int main() {
     int return_code = http.Start(4444);
     std::cout << "Http-server closed with error code: " << return_code << std::endl;
   });
+  std::thread thread_field([&field]() {
+      field->DoPhases();
+  });
 
   thread_http.join();
+  thread_field.join();
 
   return 0;
 }

@@ -7,6 +7,9 @@
 #include <string>
 #include <utility>
 
+#define UNIT_COST 10000;
+#define BASE_COST 1000000;
+
 namespace bf {
   typedef std::pair<unsigned int, unsigned int> t_pos;
 
@@ -28,6 +31,7 @@ namespace bf {
       const std::string _msg;
       unsigned int _rtn_code;
   };
+
 };
 
 #endif 

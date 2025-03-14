@@ -89,22 +89,22 @@ function UpdateChance(chance, pink) {
  * Generates green and pink units from initial lists
  */
 function Setup() {
-  // Create single units marking green/pink territory
-  CreateBases(pinks);
-  CreateBases(greens);
-
-  // Create battlefields
-  for (const [x, y] of initial_pink) {
-    CreateUnitsAroundCenter(x, y, pinks.units, 1);
-    CreateUnitsAroundCenter(x, y, greens.units, -1);
-  }
-  for (const [x, y] of initial_green) {
-    CreateUnitsAroundCenter(x, y, greens.units, 1);
-    CreateUnitsAroundCenter(x, y, pinks.units, -1);
-  }
-  console.log(pinks.units);
-  console.log(greens.units);
-  print_fields();
+  fetch("/api/bf/map")
+    .then(response => response.json())
+    .then(json => {
+      console.log(json);
+      if (json.victory !== "") {
+        ctx.fillStyle = system;
+        ctx.font = "30px Arial";
+        if (json.victory === "pink") {
+          ctx.fillText("PINK VICTORY", 500, 200);
+        } else if (json.victory === "green") {
+          ctx.fillText("GREEN VICTORY", 460, 300);
+        }
+      } else {
+        print_fields(json.pink_army, json.green_army);
+      }
+    });
 }
 
 function CreateBases(player) {
@@ -129,35 +129,57 @@ function CreateUnitsAroundCenter(x, y, units, fak) {
 
 async function DoPhases() {
   const delay = ms => new Promise(res => setTimeout(res, ms));
-  let counter = 0;
-  while (CollectBases(pinks.units).length > 0 && CollectBases(greens.units).length > 0) {
+  fetch("/api/bf/unpause", { method: "POST"})
+    .then(response => console.log("(unpause) Response ok:", response.ok));
+  while (true) {
     await delay(250);
-    let num_phases = document.getElementById("num_phases").value;
-    // Do unit-movement and attacks
-    for (let i=0; i<num_phases; i++) {
-      OnePhase(pinks, greens);
-      if (CollectBases(pinks.units).length <= 0 || CollectBases(greens.units).length <= 0)
-        break;
-      OnePhase(greens, pinks);
-      if (CollectBases(pinks.units).length <= 0 || CollectBases(greens.units).length <= 0)
-        break;
-    }
-    // Create new units
-    if (counter%4 === 0) {
-      SendNewUnits(pinks);
-      SendNewUnits(greens);
-    }
-    print_fields();
-    counter++;
+    fetch("/api/bf/map")
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        if (json.victory !== "") {
+          ctx.fillStyle = system;
+          ctx.font = "30px Arial";
+          if (json.victory === "pink") {
+            ctx.fillText("PINK VICTORY", 500, 200);
+          } else if (json.victory === "green") {
+            ctx.fillText("GREEN VICTORY", 460, 300);
+          }
+        } else {
+          print_fields(json.pink_army, json.green_army);
+        }
+      });
   }
-  print_fields();
-  ctx.fillStyle = system;
-  ctx.font = "30px Arial";
-  if (CollectBases(pinks.units).length > 0) {
-    ctx.fillText("PINK VICTORY", 500, 200);
-  } else {
-    ctx.fillText("GREEN VICTORY", 460, 300);
-  }
+  
+  // let counter = 0;
+  // while (CollectBases(pinks.units).length > 0 && CollectBases(greens.units).length > 0) {
+  //   await delay(250);
+  //   let num_phases = document.getElementById("num_phases").value;
+  //   // Do unit-movement and attacks
+  //   for (let i=0; i<num_phases; i++) {
+  //     OnePhase(pinks, greens);
+  //     if (CollectBases(pinks.units).length <= 0 || CollectBases(greens.units).length <= 0)
+  //       break;
+  //     OnePhase(greens, pinks);
+  //     if (CollectBases(pinks.units).length <= 0 || CollectBases(greens.units).length <= 0)
+  //       break;
+  //   }
+  //   // Create new units
+  //   if (counter%4 === 0) {
+  //     SendNewUnits(pinks);
+  //     SendNewUnits(greens);
+  //   }
+  //   print_fields();
+  //   counter++;
+  // }
+  // print_fields();
+  // ctx.fillStyle = system;
+  // ctx.font = "30px Arial";
+  // if (CollectBases(pinks.units).length > 0) {
+  //   ctx.fillText("PINK VICTORY", 500, 200);
+  // } else {
+  //   ctx.fillText("GREEN VICTORY", 460, 300);
+  // }
 }
 
 function SendNewUnits(player) {
@@ -284,12 +306,12 @@ function CollectBases(units) {
 function print_fields(pink_army, green_army) {
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
   // Print pink units and add up total of units (strength of all units)
-  for (const [_, unit] of Object.entries(pink_army.units)) {
+  for (const unit of pink_army.units) {
     const [x, y] = unit.pos;
     draw_pink(x, y, CalcSizeFromStength(unit.strength));
   }
   // Print green units and add up total of units (strength of all units)
-  for (const [_, unit] of Object.entries(green_army.units)) {
+  for (const unit of green_army.units) {
     const [x, y] = unit.pos;
     draw_green(x, y, CalcSizeFromStength(unit.strength));
   }
@@ -307,14 +329,13 @@ function print_fields(pink_army, green_army) {
   ctx.fillText("BATTLEFIELD", 10, 30);
   ctx.font = "14px Arial";
   ctx.fillText("pink (units: " + pink_army.num_units + ", " + pink_army.dollars + "$) " 
-    + "green: (units: " + green_army.num_units + ", " + green_army.dollars + "$)", 650, 30);
+    + "green: (units: " + green_army.num_units + ", " + green_army.dollars + "$)", 600, 30);
   for (let i=0; i<pink_army.bases_destroyed; i++) {
-    ctx.fillText("base destroyed...", 650, 42 + i*10);
+    ctx.fillText("base destroyed...", 600, 42 + i*10);
   }
    for (let i=0; i<green_army.bases_destroyed; i++) {
-    ctx.fillText("base destroyed...", 817, 42 + i*10);
+    ctx.fillText("base destroyed...", 792, 42 + i*10);
   }
-
 }
 
 function draw_dot(x, y, size, color) {
